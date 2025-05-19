@@ -270,7 +270,7 @@
                 <h3>Merci pour votre excellente note !</h3>
                 <p>Votre satisfaction est notre plus belle récompense.</p>
                 <p>Souhaiteriez-vous partager votre expérience sur Google ?</p>
-                <a href="https://g.page/r/VOTRE-ID-GOOGLE/review" target="_blank" class="action-button">Laisser un avis Google</a>
+                <a href="https://g.page/r/CdxEwgz_CVfdEAI/review" target="_blank" class="action-button">Laisser un avis Google</a>
             </div>
             
             <div class="confirmation" id="confirmation-feedback">
@@ -305,16 +305,13 @@
                 }
                 
                 if (rating === 5) {
-                    // Pour 5 étoiles, afficher la confirmation positive
+                    // Pour 5 étoiles, afficher la confirmation positive avec le lien Google
                     document.getElementById('feedback-form').style.display = 'none';
                     document.getElementById('confirmation-positive').style.display = 'block';
                     document.getElementById('confirmation-feedback').style.display = 'none';
                 } else {
                     // Pour 4 étoiles ou moins, rediriger vers la page de formulaire détaillé
-                    // Créer l'URL avec les paramètres
                     const redirectUrl = `https://chrisb1321.github.io/avis-clients/avis-formulaire.html?rating=${rating}`;
-                    
-                    // Rediriger l'utilisateur
                     window.location.href = redirectUrl;
                 }
             });
