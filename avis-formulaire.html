@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre avis nous intéresse</title>
+    <style>
+        /* Variables pour les couleurs de Swiss Financial Advice */
+        :root {
+            --primary-color: #1a3c5c; /* Bleu marine - couleur principale */
+            --secondary-color: #16a082; /* Vert émeraude - couleur secondaire */
+            --accent-color: #16a082; /* Accent vert */
+            --star-color: #f1c40f; /* Jaune pour les étoiles */
+            --text-color: #333333; /* Gris foncé pour le texte */
+            --light-bg: #f5f5f5; /* Gris très clair pour les fonds */
+            --border-color: #dddddd; /* Gris clair pour les bordures */
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .question-section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Système d'étoiles */
+        .stars-container {
+            display: flex;
+            margin: 20px 0;
+        }
+
+        .star {
+            color: var(--star-color);
+            font-size: 40px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .star.inactive {
+            color: #ddd;
+        }
+
+        /* Zone de texte */
+        .comment-area {
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            min-height: 120px;
+            font-family: inherit;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        textarea::placeholder {
+            color: #999;
+        }
+
+        /* NPS (Net Promoter Score) */
+        .nps-container {
+            margin: 20px 0;
+        }
+
+        .nps-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .nps-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .nps-number:hover, .nps-number.selected {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .nps-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Bouton de soumission */
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px 10px;
+            }
+            
+            .question-section {
+                padding: 20px;
+            }
+            
+            .stars-container {
+                justify-content: center;
+            }
+            
+            .star {
+                font-size: 30px;
+            }
+            
+            .nps-scale {
+                flex-wrap: wrap;
+                gap: 5px;
+                justify-content: center;
+            }
+            
+            .nps-number {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://votre-nom-utilisateur.github.io/avis-clients/logo-sfa.png" alt="Logo Swiss Financial Advice" class="logo" style="max-width: 220px;">
+            <h1>Votre expérience est précieuse, partagez-la !</h1>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Qu'avez-vous pensé de notre service ?</div>
+            <div class="question-subtitle">Êtes-vous satisfait de votre expérience avec nous ?</div>
+            
+            <div class="stars-container" id="site-rating">
+                <span class="star active" data-value="1">★</span>
+                <span class="star active" data-value="2">★</span>
+                <span class="star active" data-value="3">★</span>
+                <span class="star active" data-value="4">★</span>
+                <span class="star inactive" data-value="5">★</span>
+            </div>
+            
+            <div class="comment-area">
+                <div class="question-subtitle">Partagez-nous votre avis :</div>
+                <textarea id="site-feedback" placeholder="Navigation sur le site, offres proposées, qualité du service..."></textarea>
+            </div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Qu'avez-vous pensé de votre expérience ?</div>
+            <div class="question-subtitle">Quel est votre niveau de satisfaction concernant notre service ?</div>
+            
+            <div class="stars-container" id="service-rating">
+                <span class="star active" data-value="1">★</span>
+                <span class="star active" data-value="2">★</span>
+                <span class="star active" data-value="3">★</span>
+                <span class="star active" data-value="4">★</span>
+                <span class="star inactive" data-value="5">★</span>
+            </div>
+            
+            <div class="comment-area">
+                <div class="question-subtitle">Partagez-nous votre avis :</div>
+                <textarea id="service-feedback" placeholder="Qualité du service, rapport qualité-prix, expérience globale..."></textarea>
+            </div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Recommanderiez-vous notre service ?</div>
+            <div class="question-subtitle">Sur une échelle de 0 à 10, quelle est la probabilité que vous nous recommandiez à vos proches ?</div>
+            
+            <div class="nps-container">
+                <div class="nps-scale">
+                    <div class="nps-number" data-value="0">0</div>
+                    <div class="nps-number" data-value="1">1</div>
+                    <div class="nps-number" data-value="2">2</div>
+                    <div class="nps-number" data-value="3">3</div>
+                    <div class="nps-number" data-value="4">4</div>
+                    <div class="nps-number" data-value="5">5</div>
+                    <div class="nps-number" data-value="6">6</div>
+                    <div class="nps-number" data-value="7">7</div>
+                    <div class="nps-number" data-value="8">8</div>
+                    <div class="nps-number" data-value="9">9</div>
+                    <div class="nps-number" data-value="10">10</div>
+                </div>
+                <div class="nps-labels">
+                    <span>Très peu probable</span>
+                    <span>Très probable</span>
+                </div>
+            </div>
+        </div>
+
+        <form action="https://formsubmit.co/cbouin@swiss-financial-advice.com" method="POST" id="feedback-form">
+            <!-- Champs cachés pour FormSubmit -->
+            <input type="hidden" name="_subject" value="Nouvel avis client détaillé">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="site_rating" id="site-rating-value">
+            <input type="hidden" name="service_rating" id="service-rating-value">
+            <input type="hidden" name="recommendation_score" id="nps-value">
+            <input type="hidden" name="client_name" id="client-name-field">
+            <input type="hidden" name="date_visite" id="visit-date-field">
+            <input type="hidden" name="service_used" id="service-used-field">
+            <input type="hidden" name="original_rating" id="original-rating-field">
+            
+            <button type="submit" class="submit-button">Envoyer mon avis</button>
+        </form>
+    </div>
+
+    <script>
+        // Fonction pour récupérer les paramètres de l'URL
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            
+            return params;
+        }
+        
+        // Fonction pour initialiser la page avec les paramètres
+        function initializeWithParams() {
+            const params = getUrlParams();
+            
+            // Pré-remplir les champs cachés avec les données de l'URL
+            if (params.rating) {
+                document.getElementById('original-rating-field').value = params.rating;
+                
+                // Pré-sélectionner les étoiles dans les deux systèmes de notation
+                const rating = parseInt(params.rating);
+                preselectStars('site-rating', rating);
+                preselectStars('service-rating', rating);
+                
+                // Mettre à jour les valeurs des champs cachés
+                document.getElementById('site-rating-value').value = rating;
+                document.getElementById('service-rating-value').value = rating;
+            }
+            
+            if (params.clientName) {
+                document.getElementById('client-name-field').value = decodeURIComponent(params.clientName);
+            }
+            
+            if (params.visitDate) {
+                document.getElementById('visit-date-field').value = decodeURIComponent(params.visitDate);
+            }
+            
+            if (params.service) {
+                document.getElementById('service-used-field').value = decodeURIComponent(params.service);
+            }
+        }
+        
+        // Fonction pour pré-sélectionner les étoiles
+        function preselectStars(containerId, rating) {
+            const container = document.getElementById(containerId);
+            const stars = container.querySelectorAll('.star');
+            
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                    star.classList.remove('inactive');
+                } else {
+                    star.classList.add('inactive');
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        // Fonction pour gérer les clics sur les étoiles
+        function setupStarRating(containerId, hiddenFieldId) {
+            const container = document.getElementById(containerId);
+            const stars = container.querySelectorAll('.star');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const value = parseInt(star.getAttribute('data-value'));
+                    document.getElementById(hiddenFieldId).value = value;
+                    
+                    // Mettre à jour l'affichage des étoiles
+                    stars.forEach((s, index) => {
+                        if (index < value) {
+                            s.classList.add('active');
+                            s.classList.remove('inactive');
+                        } else {
+                            s.classList.add('inactive');
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Fonction pour gérer les clics sur le NPS
+        function setupNPS() {
+            const numbers = document.querySelectorAll('.nps-number');
+            
+            numbers.forEach(num => {
+                num.addEventListener('click', () => {
+                    const value = num.getAttribute('data-value');
+                    document.getElementById('nps-value').value = value;
+                    
+                    // Réinitialiser la sélection
+                    numbers.forEach(n => n.classList.remove('selected'));
+                    
+                    // Marquer l'élément sélectionné
+                    num.classList.add('selected');
+                });
+            });
+        }
+        
+        // Initialiser le formulaire
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeWithParams();
+            setupStarRating('site-rating', 'site-rating-value');
+            setupStarRating('service-rating', 'service-rating-value');
+            setupNPS();
+            
+            // Gérer la soumission du formulaire
+            document.getElementById('feedback-form').addEventListener('submit', function(event) {
+                // Ajouter les textes des commentaires aux champs cachés
+                const siteComments = document.getElementById('site-feedback').value;
+                const serviceComments = document.getElementById('service-feedback').value;
+                
+                // Créer des champs cachés pour les commentaires
+                const siteCommentsField = document.createElement('input');
+                siteCommentsField.type = 'hidden';
+                siteCommentsField.name = 'site_comments';
+                siteCommentsField.value = siteComments;
+                
+                const serviceCommentsField = document.createElement('input');
+                serviceCommentsField.type = 'hidden';
+                serviceCommentsField.name = 'service_comments';
+                serviceCommentsField.value = serviceComments;
+                
+                // Ajouter les champs au formulaire
+                this.appendChild(siteCommentsField);
+                this.appendChild(serviceCommentsField);
+            });
+        });
+    </script>
+</body>
+</html>

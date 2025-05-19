@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre avis nous intéresse</title>
+    <style>
+        /* Variables pour les couleurs */
+        :root {
+            --primary-color: #27ae60; /* Couleur principale - vert */
+            --secondary-color: #f8f9fa; /* Fond secondaire */
+            --accent-color: #2ecc71; /* Couleur d'accent - vert clair */
+            --star-color: #f1c40f; /* Couleur des étoiles - jaune */
+            --text-color: #333; /* Couleur du texte principal */
+            --light-bg: #e8f5e9; /* Fond clair pour les zones d'info */
+        }
+
+        /* Styles de base */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .email-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .email-body {
+            padding: 30px;
+        }
+
+        .email-logo {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .email-logo img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Zone d'informations clients */
+        .info-box {
+            background-color: var(--light-bg);
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+        }
+
+        /* Styles du système d'évaluation */
+        .rating-section {
+            margin: 30px 0;
+        }
+
+        .rating-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .rating-option:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .rating-label {
+            flex: 1;
+            padding-left: 15px;
+        }
+
+        .star-container {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .star {
+            color: var(--star-color);
+            font-size: 24px;
+            margin-right: 2px;
+        }
+
+        .star.inactive {
+            color: #ddd;
+        }
+
+        /* Formulaire de commentaire */
+        .feedback-form {
+            display: none;
+            margin-top: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            min-height: 120px;
+            font-family: inherit;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        /* Bouton d'action */
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Message de confirmation */
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-bg);
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .email-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h2>Donnez votre avis sur notre service</h2>
+        </div>
+        
+        <div class="email-body">
+            <div class="email-logo">
+                <img src="https://votre-nom-utilisateur.github.io/avis-clients/logo-sfa.png" alt="Logo Swiss Financial Advice" style="max-height: 60px; width: auto;">
+            </div>
+            
+            <h1>Votre avis nous intéresse !</h1>
+            
+            <div class="info-box">
+                <div class="info-item"><strong>Date de votre visite :</strong> <span id="visit-date">15.05.2025</span></div>
+                <div class="info-item"><strong>Service utilisé :</strong> <span id="service-used">Consultation</span></div>
+            </div>
+            
+            <p>Bonjour <span id="client-name">cher client</span>,</p>
+            
+            <p>Suite à votre récente visite chez nous, nous aimerions connaître votre niveau de satisfaction. Votre avis est précieux et nous aide à améliorer continuellement nos services.</p>
+            
+            <p>Que vous soyez satisfait ou qu'il y ait des points à améliorer, dites-nous tout !</p>
+            
+            <div class="rating-section">
+                <p><strong>Qu'avez-vous pensé de notre service ?</strong></p>
+                
+                <div class="rating-option" data-value="5">
+                    <div class="star-container">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <div class="rating-label">Très bien</div>
+                </div>
+                
+                <div class="rating-option" data-value="4">
+                    <div class="star-container">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star inactive">★</span>
+                    </div>
+                    <div class="rating-label">Bien</div>
+                </div>
+                
+                <div class="rating-option" data-value="3">
+                    <div class="star-container">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                    </div>
+                    <div class="rating-label">Moyen</div>
+                </div>
+                
+                <div class="rating-option" data-value="2">
+                    <div class="star-container">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                    </div>
+                    <div class="rating-label">Mauvais</div>
+                </div>
+                
+                <div class="rating-option" data-value="1">
+                    <div class="star-container">
+                        <span class="star">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                        <span class="star inactive">★</span>
+                    </div>
+                    <div class="rating-label">Très mauvais</div>
+                </div>
+            </div>
+            
+            <div class="feedback-form" id="feedback-form">
+                <p><strong>Merci de nous partager votre expérience :</strong></p>
+                <form action="https://formsubmit.co/cbouin@swiss-financial-advice.com" method="POST">
+                    <!-- Champs cachés pour FormSubmit -->
+                    <input type="hidden" name="_subject" value="Nouvel avis client - Note inférieure à 5 étoiles">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="note" id="rating-value">
+                    <input type="hidden" name="service" id="service-field">
+                    <input type="hidden" name="date_visite" id="date-field">
+                    <input type="hidden" name="client" id="client-field">
+                    
+                    <textarea id="feedback-text" name="message" placeholder="Dites-nous comment nous pourrions améliorer notre service..." required></textarea>
+                    <button type="submit" class="action-button">Envoyer mon avis</button>
+                </form>
+            </div>
+            
+            <div class="confirmation" id="confirmation-positive">
+                <h3>Merci pour votre excellente note !</h3>
+                <p>Votre satisfaction est notre plus belle récompense.</p>
+                <p>Souhaiteriez-vous partager votre expérience sur Google ?</p>
+                <a href="https://g.page/r/VOTRE-ID-GOOGLE/review" target="_blank" class="action-button">Laisser un avis Google</a>
+            </div>
+            
+            <div class="confirmation" id="confirmation-feedback">
+                <h3>Merci pour votre retour !</h3>
+                <p>Nous avons bien reçu votre avis et nous vous remercions pour votre franchise.</p>
+                <p>Nous allons analyser votre commentaire pour améliorer notre service.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour personnaliser le mail avec les données du client
+        function customizeEmail(clientName, visitDate, serviceUsed) {
+            document.getElementById('client-name').textContent = clientName || 'cher client';
+            document.getElementById('visit-date').textContent = visitDate || 'récemment';
+            document.getElementById('service-used').textContent = serviceUsed || 'nos services';
+            
+            // Mise à jour des champs cachés du formulaire
+            document.getElementById('client-field').value = clientName || 'Client non spécifié';
+            document.getElementById('date-field').value = visitDate || 'Date non spécifiée';
+            document.getElementById('service-field').value = serviceUsed || 'Service non spécifié';
+        }
+
+        // Événements pour les options de notation
+        document.querySelectorAll('.rating-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-value'));
+                
+                // Réinitialiser toutes les options
+                document.querySelectorAll('.rating-option').forEach(opt => {
+                    opt.style.backgroundColor = '';
+                });
+                
+                // Mettre en évidence l'option sélectionnée
+                this.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+                
+                // Stocker la note dans le champ caché
+                if (document.getElementById('rating-value')) {
+                    document.getElementById('rating-value').value = rating;
+                }
+                
+                if (rating === 5) {
+                    // Pour 5 étoiles, afficher la confirmation positive
+                    document.getElementById('feedback-form').style.display = 'none';
+                    document.getElementById('confirmation-positive').style.display = 'block';
+                    document.getElementById('confirmation-feedback').style.display = 'none';
+                } else {
+                    // Pour 4 étoiles ou moins, rediriger vers la page de formulaire détaillé
+                    // Récupérer les informations client pour les passer dans l'URL
+                    const clientName = document.getElementById('client-name').textContent;
+                    const visitDate = document.getElementById('visit-date').textContent;
+                    const serviceUsed = document.getElementById('service-used').textContent;
+                    
+                    // Créer l'URL avec les paramètres
+                    const redirectUrl = `https://votre-domaine.com/avis-formulaire.html?rating=${rating}&clientName=${encodeURIComponent(clientName)}&visitDate=${encodeURIComponent(visitDate)}&service=${encodeURIComponent(serviceUsed)}`;
+                    
+                    // Rediriger l'utilisateur
+                    window.location.href = redirectUrl;
+                }
+            });
+        });
+
+        // Initialisation avec des données d'exemple
+        // Dans un vrai système, ces valeurs viendraient de votre base de données
+        customizeEmail('cher client', '15.05.2025', 'Consultation');
+    </script>
+</body>
+</html>
