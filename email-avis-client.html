@@ -309,6 +309,7 @@
                 this.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
                 
                 // Stocker la note dans le champ caché
+            
                 if (document.getElementById('rating-value')) {
                     document.getElementById('rating-value').value = rating;
                 }
@@ -326,7 +327,7 @@
                     const serviceUsed = document.getElementById('service-used').textContent;
                     
                     // Créer l'URL avec les paramètres
-                    const redirectUrl = `https://votre-domaine.com/avis-formulaire.html?rating=${rating}&clientName=${encodeURIComponent(clientName)}&visitDate=${encodeURIComponent(visitDate)}&service=${encodeURIComponent(serviceUsed)}`;
+                    const redirectUrl = `https://chrisb1321.github.io/avis-clients/avis-formulaire.html?rating=${rating}&clientName=${encodeURIComponent(clientName)}&visitDate=${encodeURIComponent(visitDate)}&service=${encodeURIComponent(serviceUsed)}`;
                     
                     // Rediriger l'utilisateur
                     window.location.href = redirectUrl;
