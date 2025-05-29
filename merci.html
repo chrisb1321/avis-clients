@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merci pour votre avis - Swiss Financial Advice</title>
+    <style>
+        /* Variables pour les couleurs de Swiss Financial Advice */
+        :root {
+            --primary-color: #1a3c5c; /* Bleu marine - couleur principale */
+            --secondary-color: #16a082; /* Vert émeraude - couleur secondaire */
+            --accent-color: #16a082; /* Accent vert */
+            --text-color: #333333; /* Gris foncé pour le texte */
+            --light-bg: #f5f5f5; /* Gris très clair pour les fonds */
+            --border-color: #dddddd; /* Gris clair pour les bordures */
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 40px 30px;
+        }
+
+        .logo {
+            max-width: 180px;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1); /* Rend le logo blanc */
+        }
+
+        .check-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            animation: checkmark 0.6s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background-color: var(--light-bg);
+            border-left: 4px solid var(--secondary-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-text {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .cta-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 60, 92, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .footer {
+            background-color: var(--light-bg);
+            padding: 25px 30px;
+            font-style: italic;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Animation d'entrée */
+        .container {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://chrisb1321.github.io/avis-clients/logo-sfa.png" alt="Logo Swiss Financial Advice" class="logo">
+            <div class="check-icon">✓</div>
+            <h1>Merci pour votre avis !</h1>
+            <p class="subtitle">Votre retour a bien été envoyé</p>
+        </div>
+        
+        <div class="content">
+            <div class="message">
+                <p>Nous vous remercions sincèrement d'avoir pris le temps de partager votre expérience avec Swiss Financial Advice.</p>
+                
+                <div class="highlight-box">
+                    <div class="highlight-text">Votre avis est précieux</div>
+                    <p>Chaque retour nous aide à améliorer nos services et à mieux vous accompagner dans vos projets financiers.</p>
+                </div>
+                
+                <p>Notre équipe va analyser vos commentaires avec attention. Si votre avis nécessite un suivi particulier, nous vous recontacterons dans les plus brefs délais.</p>
+            </div>
+            
+            <div class="cta-section">
+                <p><strong>Découvrez nos autres services :</strong></p>
+                <a href="https://www.swiss-financial-advice.ch" class="btn">Retour au site</a>
+                <a href="https://www.swiss-financial-advice.ch/contact" class="btn btn-secondary">Nous contacter</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>L'équipe de Swiss Financial Advice vous remercie pour votre confiance.</p>
+            <div class="social-links">
+                <a href="https://www.swiss-financial-advice.ch">🌐 Notre site web</a>
+                <a href="mailto:contact@swiss-financial-advice.ch">✉️ Nous écrire</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Effet de particules subtil (optionnel)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation supplémentaire au chargement
+            setTimeout(function() {
+                document.querySelector('.check-icon').style.transform = 'scale(1.1)';
+                setTimeout(function() {
+                    document.querySelector('.check-icon').style.transform = 'scale(1)';
+                }, 200);
+            }, 600);
+        });
+    </script>
+</body>
+</html>
