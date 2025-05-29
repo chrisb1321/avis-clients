@@ -1,5 +1,8 @@
-
-<!DOCTYPE html>
+<!-- Message de chargement -->
+        <div class="loading-message" id="loading-message">
+            <div class="loading-spinner"></div>
+            Envoi de votre avis en cours...
+        </div><!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -150,6 +153,33 @@
             color: #666;
         }
 
+        /* Message de chargement */
+        .loading-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 6px;
+            margin: 20px 30px;
+            font-weight: bold;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Bouton de soumission */
         .submit-button {
             background-color: var(--primary-color);
@@ -162,11 +192,19 @@
             cursor: pointer;
             display: block;
             margin: 30px auto;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            min-width: 200px;
         }
 
         .submit-button:hover {
             background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Responsive */
@@ -269,25 +307,33 @@
             </div>
         </div>
 
-        <div id="loading-message" style="display: none; text-align: center; padding: 20px; background: #e8f5e9; border-radius: 6px; margin: 20px 0;">
-            <p style="color: #1a3c5c; font-weight: bold;">📧 Envoi de votre avis en cours...</p>
-        </div>
-
-        <form id="feedback-form">
-            <!-- Champs cachés pour collecter les données -->
+        <!-- Formulaire avec FormSubmit mais redirection forcée -->
+        <form action="https://formsubmit.co/cbouin@swiss-financial-advice.ch" method="POST" id="feedback-form" target="_blank">
+            <!-- Champs cachés pour FormSubmit -->
+            <input type="hidden" name="_subject" value="Nouvel avis client détaillé - Swiss Financial Advice">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            
+            <!-- Données du formulaire -->
             <input type="hidden" name="site_rating" id="site-rating-value">
             <input type="hidden" name="service_rating" id="service-rating-value">
             <input type="hidden" name="recommendation_score" id="nps-value">
-            <input type="hidden" name="client_name" id="client-name-field">
-            <input type="hidden" name="date_visite" id="visit-date-field">
-            <input type="hidden" name="service_used" id="service-used-field">
-            <input type="hidden" name="original_rating" id="original-rating-field">
+            <input type="hidden" name="original_rating" id="original-rating-value">
+            <input type="hidden" name="site_comments" id="site-comments-value">
+            <input type="hidden" name="service_comments" id="service-comments-value">
+            <input type="hidden" name="date_soumission" id="date-value">
             
-            <button type="submit" class="submit-button" id="submit-btn">Envoyer mon avis</button>
+            <button type="button" class="submit-button" id="submit-btn">Envoyer mon avis</button>
         </form>
     </div>
 
     <script>
+        // Variables pour stocker les données
+        let siteRating = 0;
+        let serviceRating = 0;
+        let npsScore = null;
+        let originalRating = 0;
+        
         // Fonction pour récupérer les paramètres de l'URL
         function getUrlParams() {
             const params = {};
@@ -305,30 +351,12 @@
         function initializeWithParams() {
             const params = getUrlParams();
             
-            // Pré-remplir les champs cachés avec les données de l'URL
             if (params.rating) {
-                document.getElementById('original-rating-field').value = params.rating;
-                
-                // Pré-sélectionner les étoiles dans les deux systèmes de notation
-                const rating = parseInt(params.rating);
-                preselectStars('site-rating', rating);
-                preselectStars('service-rating', rating);
-                
-                // Mettre à jour les valeurs des champs cachés
-                document.getElementById('site-rating-value').value = rating;
-                document.getElementById('service-rating-value').value = rating;
-            }
-            
-            if (params.clientName) {
-                document.getElementById('client-name-field').value = decodeURIComponent(params.clientName);
-            }
-            
-            if (params.visitDate) {
-                document.getElementById('visit-date-field').value = decodeURIComponent(params.visitDate);
-            }
-            
-            if (params.service) {
-                document.getElementById('service-used-field').value = decodeURIComponent(params.service);
+                originalRating = parseInt(params.rating);
+                preselectStars('site-rating', originalRating);
+                preselectStars('service-rating', originalRating);
+                siteRating = originalRating;
+                serviceRating = originalRating;
             }
         }
         
@@ -349,14 +377,19 @@
         }
         
         // Fonction pour gérer les clics sur les étoiles
-        function setupStarRating(containerId, hiddenFieldId) {
+        function setupStarRating(containerId, ratingVariable) {
             const container = document.getElementById(containerId);
             const stars = container.querySelectorAll('.star');
             
             stars.forEach(star => {
                 star.addEventListener('click', () => {
                     const value = parseInt(star.getAttribute('data-value'));
-                    document.getElementById(hiddenFieldId).value = value;
+                    
+                    if (containerId === 'site-rating') {
+                        siteRating = value;
+                    } else if (containerId === 'service-rating') {
+                        serviceRating = value;
+                    }
                     
                     // Mettre à jour l'affichage des étoiles
                     stars.forEach((s, index) => {
@@ -378,8 +411,7 @@
             
             numbers.forEach(num => {
                 num.addEventListener('click', () => {
-                    const value = num.getAttribute('data-value');
-                    document.getElementById('nps-value').value = value;
+                    npsScore = parseInt(num.getAttribute('data-value'));
                     
                     // Réinitialiser la sélection
                     numbers.forEach(n => n.classList.remove('selected'));
@@ -390,44 +422,67 @@
             });
         }
         
-        // Initialiser le formulaire
+        // Fonction pour collecter toutes les données
+        function collectFormData() {
+            return {
+                note_site: siteRating,
+                note_service: serviceRating, 
+                note_recommandation: npsScore,
+                commentaire_site: document.getElementById('site-feedback').value || '',
+                commentaire_service: document.getElementById('service-feedback').value || '',
+                note_originale: originalRating,
+                date_soumission: new Date().toLocaleString('fr-FR'),
+                timestamp: Date.now()
+            };
+        }
+        
+        // Fonction pour gérer l'envoi du formulaire
+        function handleSubmit() {
+            const submitBtn = document.getElementById('submit-btn');
+            const loadingMessage = document.getElementById('loading-message');
+            const form = document.getElementById('feedback-form');
+            
+            // Collecter et préparer les données
+            document.getElementById('site-rating-value').value = siteRating;
+            document.getElementById('service-rating-value').value = serviceRating;
+            document.getElementById('nps-value').value = npsScore || 'Non renseigné';
+            document.getElementById('original-rating-value').value = originalRating;
+            document.getElementById('site-comments-value').value = document.getElementById('site-feedback').value || '';
+            document.getElementById('service-comments-value').value = document.getElementById('service-feedback').value || '';
+            document.getElementById('date-value').value = new Date().toLocaleString('fr-FR');
+            
+            // Afficher le chargement
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            loadingMessage.style.display = 'block';
+            
+            // Créer un iframe caché pour soumettre le formulaire
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.name = 'hiddenFrame';
+            document.body.appendChild(iframe);
+            
+            // Changer la cible du formulaire vers l'iframe
+            form.target = 'hiddenFrame';
+            
+            // Soumettre le formulaire (va vers FormSubmit dans l'iframe caché)
+            form.submit();
+            
+            // Redirection immédiate vers la page de remerciement
+            setTimeout(() => {
+                window.location.href = 'https://chrisb1321.github.io/avis-clients/merci.html';
+            }, 1000);
+        }
+        
+        // Initialiser la page
         document.addEventListener('DOMContentLoaded', () => {
             initializeWithParams();
-            setupStarRating('site-rating', 'site-rating-value');
-            setupStarRating('service-rating', 'service-rating-value');
+            setupStarRating('site-rating');
+            setupStarRating('service-rating');
             setupNPS();
             
-            // Gérer la soumission du formulaire
-            document.getElementById('feedback-form').addEventListener('submit', function(event) {
-                // Empêcher la soumission normale
-                event.preventDefault();
-                
-                // Afficher le message de chargement
-                document.getElementById('loading-message').style.display = 'block';
-                document.getElementById('submit-btn').disabled = true;
-                document.getElementById('submit-btn').textContent = 'Envoi en cours...';
-                
-                // Collecter toutes les données du formulaire
-                const avisData = {
-                    note_site: document.getElementById('site-rating-value').value || 'Non renseigné',
-                    note_service: document.getElementById('service-rating-value').value || 'Non renseigné',
-                    note_recommandation: document.getElementById('nps-value').value || 'Non renseigné',
-                    commentaire_site: document.getElementById('site-feedback').value || 'Aucun commentaire',
-                    commentaire_service: document.getElementById('service-feedback').value || 'Aucun commentaire',
-                    note_originale: document.getElementById('original-rating-field').value || 'Non renseigné',
-                    date_soumission: new Date().toLocaleString('fr-FR'),
-                    nom_client: document.getElementById('client-name-field').value || 'Client anonyme'
-                };
-                
-                // Simuler l'envoi (remplacez par votre service d'email si nécessaire)
-                console.log('Avis client collecté:', avisData);
-                
-                // Attendre 1.5 secondes pour simuler l'envoi, puis rediriger
-                setTimeout(function() {
-                    // Redirection vers la page de remerciement
-                    window.location.href = 'https://chrisb1321.github.io/avis-clients/merci.html';
-                }, 1500);
-            });
+            // Attacher l'événement au bouton
+            document.getElementById('submit-btn').addEventListener('click', handleSubmit);
         });
     </script>
 </body>
