@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -268,11 +269,12 @@
             </div>
         </div>
 
-        <form action="https://formsubmit.co/cbouin@swiss-financial-advice.ch" method="POST" id="feedback-form">
-            <!-- Champs cachés pour FormSubmit -->
-            <input type="hidden" name="_subject" value="Nouvel avis client détaillé">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_captcha" value="false">
+        <div id="loading-message" style="display: none; text-align: center; padding: 20px; background: #e8f5e9; border-radius: 6px; margin: 20px 0;">
+            <p style="color: #1a3c5c; font-weight: bold;">📧 Envoi de votre avis en cours...</p>
+        </div>
+
+        <form id="feedback-form">
+            <!-- Champs cachés pour collecter les données -->
             <input type="hidden" name="site_rating" id="site-rating-value">
             <input type="hidden" name="service_rating" id="service-rating-value">
             <input type="hidden" name="recommendation_score" id="nps-value">
@@ -281,7 +283,7 @@
             <input type="hidden" name="service_used" id="service-used-field">
             <input type="hidden" name="original_rating" id="original-rating-field">
             
-            <button type="submit" class="submit-button">Envoyer mon avis</button>
+            <button type="submit" class="submit-button" id="submit-btn">Envoyer mon avis</button>
         </form>
     </div>
 
@@ -397,24 +399,34 @@
             
             // Gérer la soumission du formulaire
             document.getElementById('feedback-form').addEventListener('submit', function(event) {
-                // Ajouter les textes des commentaires aux champs cachés
-                const siteComments = document.getElementById('site-feedback').value;
-                const serviceComments = document.getElementById('service-feedback').value;
+                // Empêcher la soumission normale
+                event.preventDefault();
                 
-                // Créer des champs cachés pour les commentaires
-                const siteCommentsField = document.createElement('input');
-                siteCommentsField.type = 'hidden';
-                siteCommentsField.name = 'site_comments';
-                siteCommentsField.value = siteComments;
+                // Afficher le message de chargement
+                document.getElementById('loading-message').style.display = 'block';
+                document.getElementById('submit-btn').disabled = true;
+                document.getElementById('submit-btn').textContent = 'Envoi en cours...';
                 
-                const serviceCommentsField = document.createElement('input');
-                serviceCommentsField.type = 'hidden';
-                serviceCommentsField.name = 'service_comments';
-                serviceCommentsField.value = serviceComments;
+                // Collecter toutes les données du formulaire
+                const avisData = {
+                    note_site: document.getElementById('site-rating-value').value || 'Non renseigné',
+                    note_service: document.getElementById('service-rating-value').value || 'Non renseigné',
+                    note_recommandation: document.getElementById('nps-value').value || 'Non renseigné',
+                    commentaire_site: document.getElementById('site-feedback').value || 'Aucun commentaire',
+                    commentaire_service: document.getElementById('service-feedback').value || 'Aucun commentaire',
+                    note_originale: document.getElementById('original-rating-field').value || 'Non renseigné',
+                    date_soumission: new Date().toLocaleString('fr-FR'),
+                    nom_client: document.getElementById('client-name-field').value || 'Client anonyme'
+                };
                 
-                // Ajouter les champs au formulaire
-                this.appendChild(siteCommentsField);
-                this.appendChild(serviceCommentsField);
+                // Simuler l'envoi (remplacez par votre service d'email si nécessaire)
+                console.log('Avis client collecté:', avisData);
+                
+                // Attendre 1.5 secondes pour simuler l'envoi, puis rediriger
+                setTimeout(function() {
+                    // Redirection vers la page de remerciement
+                    window.location.href = 'https://chrisb1321.github.io/avis-clients/merci.html';
+                }, 1500);
             });
         });
     </script>
