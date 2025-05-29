@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Formulaire</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f7fa; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+        h1 { color: #1a3c5c; }
+        button { background: #1a3c5c; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        textarea { width: 100%; padding: 10px; margin: 10px 0; min-height: 100px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Formulaire d'Avis - Swiss Financial Advice</h1>
+        <p>Note reçue : <span id="rating-display"></span> étoiles</p>
+        
+        <form id="test-form">
+            <label>Votre commentaire :</label>
+            <textarea id="comment" placeholder="Dites-nous ce que vous pensez..."></textarea>
+            <button type="submit">Envoyer mon avis</button>
+        </form>
+    </div>
+
+    <script>
+        // Récupérer la note depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const rating = params.get('rating') || '0';
+        document.getElementById('rating-display').textContent = rating;
+        
+        // Gérer la soumission
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Test réussi ! Redirection vers la page de remerciement...');
+            window.location.href = 'https://chrisb1321.github.io/avis-clients/merci.html';
+        });
+    </script>
+</body>
+</html>
