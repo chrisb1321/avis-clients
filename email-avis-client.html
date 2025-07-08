@@ -100,12 +100,12 @@
             transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s;
         }
 
-        .rating-option:hover .star {
+        .rating-option:hover .star:not(.inactive) {
             transform: scale(1.2);
             color: #ffd700; /* Jaune plus vif au survol */
         }
-
-        .star.inactive {
+        .rating-option:hover .star.inactive {
+            transform: none;
             color: #ddd;
         }
 
