@@ -47,7 +47,7 @@
         }
 
         .email-logo {
-            text-align: right;
+            text-align: left; /* Logo à gauche */
             margin-bottom: 20px;
         }
 
@@ -94,15 +94,16 @@
         }
 
         .star {
-            color: var(--star-color);
+            color: #f1c40f; /* Jaune toujours actif */
             font-size: 24px;
             margin-right: 2px;
-            transition: transform 0.2s ease, color 0.2s ease;
+            transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s;
         }
 
         .rating-option:hover .star {
-            transform: scale(1.2);
-            color: #ffcc00; /* Couleur plus vive au survol */
+            transform: scale(1.2) rotate(-5deg);
+            color: #ffd700; /* Jaune plus vif au survol */
+            box-shadow: 0 2px 8px #f1c40f55;
         }
 
         .star.inactive {
